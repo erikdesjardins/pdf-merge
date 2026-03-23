@@ -1,6 +1,8 @@
 using System;
 using System.IO;
+using System.Linq;
 using iText.Kernel.Pdf;
+using iText.Kernel.Utils;
 
 var files = args.Skip(1);
 
