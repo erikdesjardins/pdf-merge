@@ -8,13 +8,13 @@ var files = args.Skip(1);
 
 var outputStream = new MemoryStream();
 
-using (var output = new PdfDocument(new PdfWriter(outputStream)))
-using (var merger = new PdfMerger(output))
+var merger = new PdfMerger(new PdfDocument(new PdfWriter(outputStream)));
 foreach (var fileName in files)
 {
     using var file = new PdfDocument(new PdfReader(fileName));
-    merger.merge(file, 1, file.GetNumberOfPages());
+    merger.Merge(file, 1, file.GetNumberOfPages());
 }
+merger.Close();
 
 outputStream.Position = 0;
 outputStream.CopyTo(Console.OpenStandardOutput());
