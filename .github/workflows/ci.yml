@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches:
+    - master
+    tags:
+    - v*.*.*
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - run: dotnet publish --warnAsError --configuration Release PdfMerge.csproj
+      - run: ls -lh bin/Release/publish/PdfMerge.exe
+
+      - uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            bin/Release/publish/PdfMerge.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
