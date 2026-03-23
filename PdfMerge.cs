@@ -4,7 +4,10 @@ using System.Linq;
 using iText.Kernel.Pdf;
 using iText.Kernel.Utils;
 
-var merger = new PdfMerger(new PdfDocument(new PdfWriter(Console.OpenStandardOutput())));
+var writer = new PdfWriter(Console.OpenStandardOutput());
+writer.SetCompressionLevel(9);
+
+var merger = new PdfMerger(new PdfDocument(writer));
 foreach (var fileName in args)
 {
     using var file = new PdfDocument(new PdfReader(fileName));
